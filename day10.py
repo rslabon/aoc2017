@@ -48,7 +48,7 @@ def to_hex_string(numbers):
     return "".join([f"{n:02x}" for n in numbers])
 
 
-def full_knot_hush(numbers, lengths):
+def full_knot_hash(numbers, lengths):
     current = 0
     skip = 0
     for _ in range(64):
@@ -61,6 +61,12 @@ def full_knot_hush(numbers, lengths):
     return to_hex_string(dense_hash(numbers))
 
 
+def final_knot_hash(input_text):
+    lengths = to_ascii_codes(input_text)
+    lengths += [17, 31, 73, 47, 23]
+    return full_knot_hash(list(range(0, 256)), lengths)
+
+
 def part1():
     numbers = puzzle.split(",")
     numbers = [int(n) for n in numbers]
@@ -68,10 +74,8 @@ def part1():
 
 
 def part2():
-    lengths = to_ascii_codes(puzzle)
-    lengths += [17, 31, 73, 47, 23]
-    print(full_knot_hush(list(range(0, 256)), lengths))
+    print(final_knot_hash(puzzle))
 
 
-part1()
-part2()
+# part1()
+# part2()
