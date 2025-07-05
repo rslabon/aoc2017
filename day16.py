@@ -1,18 +1,14 @@
-import functools
-
 programs = "ABCDEFGHIJKLMNOP".lower()
 
 moves = """s1,x3/4,pe/b"""
 with open("./resources/day16.txt") as f:
     moves = f.read().strip()
 
-moves = tuple(moves.split(','))
-programs = tuple(programs)
+moves = moves.split(',')
+programs = list(programs)
 
 
-@functools.cache
 def dance(programs, moves):
-    programs, moves = list(programs), list(moves)
     for move in moves:
         if move.startswith('s'):
             d = move[1:]
@@ -33,7 +29,7 @@ def dance(programs, moves):
             programs[a] = programs[b]
             programs[b] = tmp
 
-    return tuple(programs)
+    return programs
 
 
 def part1(programs, moves):
@@ -41,7 +37,7 @@ def part1(programs, moves):
 
 
 def part2(programs, moves):
-    original = tuple(programs)
+    original = programs[:]
     i = 0
     cycle_size = 0
     cycle = []
