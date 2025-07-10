@@ -51,7 +51,7 @@ def part1(particles):
 
 
 def part2(particles):
-    stable = 1000
+    stable = 500
     while stable > 0:
         for i, (id, p, v, a, c) in enumerate(particles):
             px, py, pz = p
