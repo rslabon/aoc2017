@@ -75,7 +75,7 @@ def part2(particles):
                 destroyed |= c
 
         if destroyed:
-            stable = 1000
+            stable = 500
             particles = [particle for particle in particles if particle[0] not in destroyed]
         else:
             stable -= 1
