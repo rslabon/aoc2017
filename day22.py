@@ -17,29 +17,17 @@ for row, line in enumerate(lines):
 
 class Direction(Enum):
     UP = 0
-    DOWN = 1
-    LEFT = 2
-    RIGHT = 3
+    RIGHT = 1
+    DOWN = 2
+    LEFT = 3
 
     def right(self):
-        if self == Direction.UP:
-            return Direction.RIGHT
-        elif self == Direction.DOWN:
-            return Direction.LEFT
-        elif self == Direction.LEFT:
-            return Direction.UP
-        else:
-            return Direction.DOWN
+        next = (self.value + 1) % 4
+        return Direction(next)
 
     def left(self):
-        if self == Direction.UP:
-            return Direction.LEFT
-        elif self == Direction.DOWN:
-            return Direction.RIGHT
-        elif self == Direction.LEFT:
-            return Direction.DOWN
-        else:
-            return Direction.UP
+        next = (self.value - 1) % 4
+        return Direction(next)
 
     def reverse(self):
         if self == Direction.UP:
