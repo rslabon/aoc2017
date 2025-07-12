@@ -17,14 +17,14 @@ with open("./resources/day24.txt") as f:
 zero_pin = set()
 other_pin = set()
 for line in lines:
-    left, right = line.split("/")
-    left, right = int(left), int(right)
-    if left == 0:
-        zero_pin.add((left, True, right, False))
-    elif right == 0:
-        zero_pin.add((left, False, right, True))
+    left_pin, right_pin = line.split("/")
+    left_pin, right_pin = int(left_pin), int(right_pin)
+    if left_pin == 0:
+        zero_pin.add((left_pin, True, right_pin, False))
+    elif right_pin == 0:
+        zero_pin.add((left_pin, False, right_pin, True))
     else:
-        other_pin.add((left, False, right, False))
+        other_pin.add((left_pin, False, right_pin, False))
 
 
 def strength(port):
@@ -41,18 +41,18 @@ def find_max_strength(current, others):
         if s > max_strength:
             max_strength = s
 
-        cleft, cleft_used, cright, cright_used = current
+        cleft_pin, cleft_used, cright_pin, cright_used = current
         for other in others:
-            oleft, oleft_used, oright, oright_used = other
-            if (not cleft_used and not oleft_used and cleft == oleft) or (
-                    not cright_used and not oleft_used and cright == oleft):
+            oleft_pin, oleft_used, oright_pin, oright_used = other
+            if (not cleft_used and not oleft_used and cleft_pin == oleft_pin) or (
+                    not cright_used and not oleft_used and cright_pin == oleft_pin):
                 q.append((s + strength(other),
-                          (oleft, True, oright, oright_used),
+                          (oleft_pin, True, oright_pin, oright_used),
                           others - {other}))
-            elif (not cleft_used and not oright_used and cleft == oright) or (
-                    not cright_used and not oright_used and cright == oright):
+            elif (not cleft_used and not oright_used and cleft_pin == oright_pin) or (
+                    not cright_used and not oright_used and cright_pin == oright_pin):
                 q.append((s + strength(other),
-                          (oleft, oleft_used, oright, True),
+                          (oleft_pin, oleft_used, oright_pin, True),
                           others - {other}))
 
     return max_strength
@@ -67,19 +67,19 @@ def find_max_longest_strength(current, others):
         s, current, others, path_size = q.popleft()
         stats[path_size] = max(stats.get(path_size, 0), s)
 
-        cleft, cleft_used, cright, cright_used = current
+        cleft_pin, cleft_used, cright_pin, cright_used = current
         for other in others:
-            oleft, oleft_used, oright, oright_used = other
-            if (not cleft_used and not oleft_used and cleft == oleft) or (
-                    not cright_used and not oleft_used and cright == oleft):
+            oleft_pin, oleft_used, oright_pin, oright_used = other
+            if (not cleft_used and not oleft_used and cleft_pin == oleft_pin) or (
+                    not cright_used and not oleft_used and cright_pin == oleft_pin):
                 q.append((s + strength(other),
-                          (oleft, True, oright, oright_used),
+                          (oleft_pin, True, oright_pin, oright_used),
                           others - {other},
                           path_size + 1))
-            elif (not cleft_used and not oright_used and cleft == oright) or (
-                    not cright_used and not oright_used and cright == oright):
+            elif (not cleft_used and not oright_used and cleft_pin == oright_pin) or (
+                    not cright_used and not oright_used and cright_pin == oright_pin):
                 q.append((s + strength(other),
-                          (oleft, oleft_used, oright, True),
+                          (oleft_pin, oleft_used, oright_pin, True),
                           others - {other},
                           path_size + 1))
 
