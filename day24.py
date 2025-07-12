@@ -37,21 +37,21 @@ def find_max_strength(current, others):
     max_strength = float("-inf")
 
     while q:
-        s, current, others = q.popleft()
-        if s > max_strength:
-            max_strength = s
+        total_strength, current, others = q.popleft()
+        if total_strength > max_strength:
+            max_strength = total_strength
 
         cleft_pin, cleft_used, cright_pin, cright_used = current
         for other in others:
             oleft_pin, oleft_used, oright_pin, oright_used = other
             if (not cleft_used and not oleft_used and cleft_pin == oleft_pin) or (
                     not cright_used and not oleft_used and cright_pin == oleft_pin):
-                q.append((s + strength(other),
+                q.append((total_strength + strength(other),
                           (oleft_pin, True, oright_pin, oright_used),
                           others - {other}))
             elif (not cleft_used and not oright_used and cleft_pin == oright_pin) or (
                     not cright_used and not oright_used and cright_pin == oright_pin):
-                q.append((s + strength(other),
+                q.append((total_strength + strength(other),
                           (oleft_pin, oleft_used, oright_pin, True),
                           others - {other}))
 
@@ -64,21 +64,21 @@ def find_max_longest_strength(current, others):
     stats = dict()
 
     while q:
-        s, current, others, path_size = q.popleft()
-        stats[path_size] = max(stats.get(path_size, 0), s)
+        total_strength, current, others, path_size = q.popleft()
+        stats[path_size] = max(stats.get(path_size, 0), total_strength)
 
         cleft_pin, cleft_used, cright_pin, cright_used = current
         for other in others:
             oleft_pin, oleft_used, oright_pin, oright_used = other
             if (not cleft_used and not oleft_used and cleft_pin == oleft_pin) or (
                     not cright_used and not oleft_used and cright_pin == oleft_pin):
-                q.append((s + strength(other),
+                q.append((total_strength + strength(other),
                           (oleft_pin, True, oright_pin, oright_used),
                           others - {other},
                           path_size + 1))
             elif (not cleft_used and not oright_used and cleft_pin == oright_pin) or (
                     not cright_used and not oright_used and cright_pin == oright_pin):
-                q.append((s + strength(other),
+                q.append((total_strength + strength(other),
                           (oleft_pin, oleft_used, oright_pin, True),
                           others - {other},
                           path_size + 1))
